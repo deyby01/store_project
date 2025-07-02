@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: mongo:5.0
+    volumes:
+      - mongo_data:/data/db
+
+  web:
+    build: .
+    command: gunicorn tienda_project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - db
+
+volumes:
+  mongo_data:
+  static_volume: {}

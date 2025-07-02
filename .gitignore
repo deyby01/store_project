@@ -17,3 +17,10 @@ env/
 
 # Archivos py cache
 __pycache__/
+
+# Variables de entorno
+.env
+.venv
+
+# archivos estaticos
+staticfiles/

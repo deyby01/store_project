@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4055lbjr_opxiu2c4#5m%a3dds@vp72p#t3jdqsrswe%5^o*0v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,24 +77,14 @@ WSGI_APPLICATION = 'tienda_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'tienda_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'mi-tienda-db', # Nombre de la base de datos que se creará en Atlas
-        'ENFORCE_SCHEMA': False, # Permite la flexibilidad de NoSQL
+        'NAME':os.environ.get('DB_NAME'), 
         'CLIENT': {
-            'host': 'mongodb+srv://camachodeybygerman:Mariselydeyby01@tienda-cluster.lfgno04.mongodb.net/?retryWrites=true&w=majority&appName=tienda-cluster' # Pega aquí tu cadena de conexión
+            'host': os.environ.get('DB_HOST', 'localhost'),
+            'port': 27017
         }
     }
 }
@@ -134,6 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
