@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Tienda Online{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'catalogo/css/pico.min.css' %}">
+</head>
+<body>
+    <main class='container'>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}"><strong>Mi Tienda</strong></a></li>
+            </ul>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li>Hola, {{ user.username }}¡</li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                {% endif %}
+                <li><a href="{% url 'ver_carrito' %}" role="button">Carrito</a></li>
+            </ul>
+        </nav>
+        <hr>
+        {% block content %}
+        {% endblock content %}
+    </main>
+</body>
+</html>

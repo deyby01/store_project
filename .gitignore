@@ -1,0 +1,19 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+.env/
+
+# Archivos de configuración
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de base de datos
+*.sqlite3
+
+# Archivos vscode
+.vscode/
+
+# Archivos py cache
+__pycache__/

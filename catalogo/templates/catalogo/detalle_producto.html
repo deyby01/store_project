@@ -1,0 +1,45 @@
+{% extends 'catalogo/base.html' %}
+
+{% block title %}{{ producto.nombre }}{% endblock title %}
+
+{% block content %}
+    <h1>{{ producto.nombre }}</h1>
+    <p><strong>Categoria:</strong> {{ producto.categoria.nombre }}</p>
+    <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+    <p><strong>Stock Disponible:</strong> {{ producto.stock }}</p>
+    <hr>
+    <p>{{ producto.descripcion }}</p>
+
+    <a href="{% url 'agregar_al_carrito' producto.id %}">Agregar al carrito</a>
+    <br>
+
+    <h3>Reseñas</h3>
+
+    {% for resena in resenas %}
+        <div style="border: 1px solid #eee; padding: 10px; margin-top: 10px;">
+            <p><strong>Autor:</strong> {{ resena.autor }}</p>
+
+            {% if resena.calificacion %}
+                <p><strong>Calificacion:</strong> {{ resena.calificacion }} / 5 estrellas</p>
+            {% endif %}
+
+            <p>{{ resena.texto }}</p>
+            <small>Publicado el: {{ resena.creado_en|date:"d M Y" }}</small>
+        </div>
+    {% empty %}
+        <p>Este producto aun no contiene reseñas. ¡Sé el primero!</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Deja tu Reseña</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar Reseña</button>
+    </form>
+
+    <hr>
+    
+    <a href="{% url 'home' %}">Volver a la tienda</a>
+{% endblock content %}

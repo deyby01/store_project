@@ -1,0 +1,19 @@
+{% extends 'catalogo/base.html' %}
+
+{% block title %}Inicio - Mi Tienda Online{% endblock %}
+
+{% block content %}
+    <h1>Nuestros Productos</h1>
+    
+    {% for producto in productos %}
+        <article>
+            <header>
+                <a href="{% url 'detalle_producto' producto.slug %}">
+                    <h3>{{ producto.nombre }}</h3>
+                </a>
+            </header>
+            <p>{{ producto.descripcion }}</p>
+            <footer><strong>Precio:</strong> ${{ producto.precio }}</footer>
+        </article>
+    {% endfor %}
+{% endblock %}
